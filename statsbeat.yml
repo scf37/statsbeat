@@ -1,0 +1,33 @@
+# Statsbeat configuration
+#
+# configuration parameters can be overriden by environment variables,
+# e.g statsbeat.beat_interval overrides beat_interval parameter
+statsbeat:
+
+  # interval between collections, in seconds
+  beat_interval: 3
+
+  # field name for collection timestamp
+  timestamp_field_name: "@timestamp"
+
+  # check/plugin execution timeout
+  timeout: 30
+
+  elastic:
+    index_name: stats
+    server_url: http://localhost:9200/
+
+# list of fields to export
+# values can be nagios-compatible check command line (must start with ./ or /)
+# or python plugin name with parameters
+fields:
+  smart_sda: ./check_ide_smart -d /dev/sda
+  smart_sdb: ./check_ide_smart -d /dev/sdb
+  smart_sdc: ./check_ide_smart -d /dev/sdc
+  cpu: cpu
+  fd_used: fd
+  ram: ram
+  io_root: io sda
+  io_newvolume: io sdc
+  disk.root: fs /hostfs
+  disk.newvolume: ["fs", "/hostfs/media/asm/New Volume"]
